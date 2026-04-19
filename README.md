@@ -31,3 +31,9 @@ Kernel: Linux 6.19.9-200.fc43.x86_64
 WM: Hyprland 0.54.3 (Wayland)
 
 IME(입력기): fcitx5/kime
+
+<img width="1915" height="1078" alt="1776595426" src="https://github.com/user-attachments/assets/b0c677cc-7da0-4187-bbc3-9f7f7eecdbcc" />
+
+<img width="1917" height="1077" alt="1776601986" src="https://github.com/user-attachments/assets/93f612b1-2b37-4ed6-b897-b0bff14bdb64" />
+
+
