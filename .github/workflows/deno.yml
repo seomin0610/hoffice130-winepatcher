@@ -1,0 +1,77 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow will install Deno then run `deno lint` and `deno test`.
+# For more information see: https://github.com/denoland/setup-deno
+
+name: 디노엔드릴리즈
+
+on:
+  pull_request:
+    branches: ["main"]
+    
+  workflow_dispatch:
+    inputs:
+      app_version:
+        description: "버전"
+        required: true
+        type: string
+      prev_version:
+        description: "이전 릴리즈 태그"
+        required: false
+        type: string    
+        
+permissions:
+  contents: write
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        # uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31  # v1.1.2
+        with:
+          deno-version: v1.x
+
+      # Uncomment this step to verify the use of 'deno fmt' on each commit.
+      # - name: Verify formatting
+      #   run: deno fmt --check
+
+      - name: Compile
+        run: |
+          deno compile \
+            --allow-all \
+            --output hoffice130-patcher \
+            src/hoffice-patcher.js
+            
+      - name: Generate changelog
+        run: |
+          PREV="${{ github.event.inputs.prev_version }}"
+          LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREV" ]; then
+            if [ -z "$LAST_TAG" ]; then
+              git log --pretty=format:"- %s (%h)" > changelog.txt
+            else
+              git log $LAST_TAG..HEAD --pretty=format:"- %s (%h)" > changelog.txt
+            fi
+          else
+            git log $PREV..HEAD --pretty=format:"- %s (%h)" > changelog.txt
+          fi
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.event.inputs.app_version }}-${{ github.run_number }}
+          name: Release v${{ github.event.inputs.app_version }} ${{ github.run_number }}
+          body_path: changelog.txt
+          files: hoffice130-patcher
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
