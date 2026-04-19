@@ -6,13 +6,12 @@
 # This workflow will install Deno then run `deno lint` and `deno test`.
 # For more information see: https://github.com/denoland/setup-deno
 
-name: Deno
+name: 디노엔드릴리즈
 
 on:
-  push:
-    branches: ["main"]
   pull_request:
     branches: ["main"]
+    
   workflow_dispatch:
     inputs:
       app_version:
@@ -26,6 +25,7 @@ on:
         
 permissions:
   contents: write
+  
 jobs:
   test:
     runs-on: ubuntu-latest
