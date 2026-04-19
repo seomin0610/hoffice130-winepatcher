@@ -95,7 +95,7 @@ function patchEngineDll(engineDll) {
   }
 
   if (backupOnce(engineDll)) {
-    console.log('  백업 완료: HncOfficeEngine.dll.bak');
+    console.log('  백업 성공: HncOfficeEngine.dll.bak');
   } else {
     console.log('  백업 이미 존재, 덮어쓰지 않음');
   }
@@ -122,7 +122,7 @@ function patchEngineDll(engineDll) {
     fs.closeSync(fd);
   }
 
-  console.log('  HncOfficeEngine.dll 패치 완료');
+  console.log('  HncOfficeEngine.dll 패치 성공');
 }
 
 function patchModuleDll(moduleDll) {
@@ -134,7 +134,7 @@ function patchModuleDll(moduleDll) {
   }
 
   if (backupOnce(moduleDll)) {
-    console.log('  백업 완료: HncOfficeModule.dll.bak');
+    console.log('  백업 성공: HncOfficeModule.dll.bak');
   } else {
     console.log('  백업 이미 존재, 덮어쓰지 않음');
   }
@@ -173,7 +173,7 @@ function patchModuleDll(moduleDll) {
     fs.closeSync(verifyFd);
   }
 
-  console.log('  HncOfficeModule.dll 패치 완료');
+  console.log('  HncOfficeModule.dll 패치 성공');
 }
 
 function disableFile(filePath) {
@@ -204,7 +204,7 @@ async function setupWineRegAndSocat() {
     'xdg-open "%1"',
     '/f',
   ], { silent: true });
-  console.log('  http 핸들러 등록 완료');
+  console.log('  http 핸들러 등록 성공');
 
   await run('wine', [
     'reg',
@@ -217,7 +217,7 @@ async function setupWineRegAndSocat() {
     'xdg-open "%1"',
     '/f',
   ], { silent: true });
-  console.log('  https 핸들러 등록 완료');
+  console.log('  https 핸들러 등록 성공');
 
   const running = spawnSync('pgrep', ['-f', 'socat.*TCP-LISTEN:80'], { stdio: 'ignore' }).status === 0;
   if (!running) {
@@ -258,7 +258,7 @@ async function main() {
   const wrapperPath = '/tmp/xdg-open.sh';
   fs.writeFileSync(wrapperPath, '#!/bin/bash\nxdg-open "$@"\n', { mode: 0o755 });
   fs.chmodSync(wrapperPath, 0o755);
-  console.log(`  완료: ${wrapperPath}`);
+  console.log(`  성공: ${wrapperPath}`);
 
   const ENGINE_DLL = path.join(HNC_BIN, 'HncOfficeEngine.dll');
   const MODULE_DLL = path.join(HNC_BIN, 'HncOfficeModule.dll');
@@ -275,8 +275,8 @@ async function main() {
   await setupWineRegAndSocat();
 
   console.log('');
-  console.log('=== 패치 완료 ===');
-  console.log('재시작 하지 마시고 한글을 실행해 로그인부터 해주세요');
+  console.log('=== 패치 성공 ===');
+  console.log('아직 한컴독스 로그인이 안되있다면 재시작 하지 말고, 지금 한글을 실행해 로그인부터 해주세요!');
   //console.log('한글 실행:');
   //console.log('  WINEPREFIX=~/.wine wine "C:/Program Files (x86)/Hnc/Office 2024/HOffice130/Bin/Hwp.exe"');
   //console.log('');
