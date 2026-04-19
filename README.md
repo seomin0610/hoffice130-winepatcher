@@ -17,8 +17,11 @@
 ## 사용법
 
 1. wine으로 윈도우용 한컴오피스를 공식 [설치프로그램](https://cdn.hancom.com/pds/hnc/DOWN/HancomDocs/HancomOffice_HancomDocs_ko.exe)을 통해 설치해주세요.
-2. 릴리즈 탭에서 최신 패쳐를 다운로드 받아 사용권한을 부여한뒤, 실행시키면 패치가 시작됩니다
-
+2. 릴리즈 탭에서 최신 패쳐를 다운로드 해주세요.
+3. ```chmod +x ./hoffice-patcher.sh``
+4. ```./hoffice-patcher.sh```
+5. 패치가 완료되면 바로 한컴독스 로그인을 해주세요!
+   
 ## 테스트된 환경
 
 - wine-11.0 (Staging)
@@ -32,6 +35,7 @@ WM: Hyprland 0.54.3 (Wayland)
 
 IME(입력기): fcitx5/kime
 
+## ..
 <img width="1915" height="1078" alt="1776595426" src="https://github.com/user-attachments/assets/b0c677cc-7da0-4187-bbc3-9f7f7eecdbcc" />
 
 <img width="1917" height="1077" alt="1776601986" src="https://github.com/user-attachments/assets/93f612b1-2b37-4ed6-b897-b0bff14bdb64" />
