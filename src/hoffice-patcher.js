@@ -5,11 +5,11 @@
 
 'use strict';
 
-const fs = import('fs');
-const path = import('path');
-const { spawnSync, spawn } = import('child_process');
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { spawnSync, spawn } from 'node:child_process';
 
-const WINE_PREFIX = process.env.WINEPREFIX || path.join(process.env.HOME || '', '.wine');
+const WINE_PREFIX = Deno.env.get('WINEPREFIX') || path.join(Deno.env.get('HOME') || '', '.wine');
 const HNC_BIN = path.join(
   WINE_PREFIX,
   'drive_c',
@@ -55,19 +55,19 @@ function commandExists(cmd) {
   return spawnSync('bash', ['-lc', `command -v ${cmd}`], { stdio: 'ignore' }).status === 0;
 }
 
-function installPackage(pkg) {
+async function installPackage(pkg) {
   console.log(`  [${pkg}] 설치 중...`);
 
   if (commandExists('apt-get')) {
-    run('sudo', ['apt-get', 'install', '-y', pkg]);
+    await run('sudo', ['apt-get', 'install', '-y', pkg]);
   } else if (commandExists('dnf')) {
-    run('sudo', ['dnf', 'install', '-y', pkg]);
+    await run('sudo', ['dnf', 'install', '-y', pkg]);
   } else if (commandExists('pacman')) {
-    run('sudo', ['pacman', '-S', '--noconfirm', pkg]);
+    await run('pacman', ['-S', '--noconfirm', pkg]);
   } else if (commandExists('zypper')) {
-    run('sudo', ['zypper', 'install', '-y', pkg]);
+    await run('zypper', ['install', '-y', pkg]);
   } else if (commandExists('emerge')) {
-    run('sudo', ['emerge', pkg]);
+    await run('emerge', [pkg]);
   } else {
     throw new Error(`지원하는 패키지 매니저를 찾을 수 없습니다. ${pkg} 를 수동으로 설치하세요.`);
   }
@@ -190,10 +190,10 @@ function disableFile(filePath) {
   }
 }
 
-function setupWineRegAndSocat() {
+async function setupWineRegAndSocat() {
   console.log('[6/6] Wine 레지스트리 및 socat 설정...');
 
-  run('wine', [
+  await run('wine', [
     'reg',
     'add',
     'HKEY_CLASSES_ROOT\\http\\shell\\open\\command',
@@ -206,7 +206,7 @@ function setupWineRegAndSocat() {
   ], { silent: true });
   console.log('  http 핸들러 등록 완료');
 
-  run('wine', [
+  await run('wine', [
     'reg',
     'add',
     'HKEY_CLASSES_ROOT\\https\\shell\\open\\command',
@@ -234,7 +234,7 @@ function setupWineRegAndSocat() {
   }
 }
 
-function main() {
+async function main() {
   console.log('=== 한글 2024 Wine 패치 시작 ===');
   console.log(`WINE PREFIX: ${WINE_PREFIX}`);
   console.log('');
@@ -242,13 +242,13 @@ function main() {
   if (!fs.existsSync(HNC_BIN) || !fs.statSync(HNC_BIN).isDirectory()) {
     console.error(`[오류] 한글 설치 경로를 찾을 수 없습니다: ${HNC_BIN}`);
     console.error('WINEPREFIX 환경변수를 설정하거나 설치 경로를 확인하세요.');
-    process.exit(1);
+    Deno.exit(1);
   }
 
   console.log('[1/6] socat 확인...');
   if (!commandExists('socat')) {
     console.log('  socat 미설치, 설치합니다...');
-    installPackage('socat');
+    await installPackage('socat');
   } else {
     const socatPath = runCapture('bash', ['-lc', 'which socat']) || '(경로 확인 실패)';
     console.log(`  socat 이미 설치됨: ${socatPath}`);
@@ -272,7 +272,7 @@ function main() {
   disableFile(path.join(HNC_BIN, 'A3DT.exe'));
   disableFile(path.join(HNC_BIN, 'A3Dll32.dll'));
 
-  setupWineRegAndSocat();
+  await setupWineRegAndSocat();
 
   console.log('');
   console.log('=== 패치 완료 ===');
@@ -285,9 +285,11 @@ function main() {
   //console.log(`  cp "${MODULE_DLL}.bak" "${MODULE_DLL}"`);
 }
 
-try {
-  main();
-} catch (error) {
-  console.error(`[오류] ${error.message}`);
-  process.exit(1);
-}
+(async () => {
+  try {
+    await main();
+  } catch (error) {
+    console.error(`[오류] ${error.message}`);
+    Deno.exit(1);
+  }
+})();
