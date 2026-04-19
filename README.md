@@ -18,7 +18,7 @@
 
 1. wine으로 윈도우용 한컴오피스를 공식 [설치프로그램](https://cdn.hancom.com/pds/hnc/DOWN/HancomDocs/HancomOffice_HancomDocs_ko.exe)을 통해 설치해주세요.
 2. 릴리즈 탭에서 최신 패쳐를 다운로드 해주세요.
-3. ```chmod +x ./hoffice-patcher.sh``
+3. ```chmod +x ./hoffice-patcher.sh```
 4. ```./hoffice-patcher.sh```
 5. 패치가 완료되면 바로 한컴독스 로그인을 해주세요!
    
