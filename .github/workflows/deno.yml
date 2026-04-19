@@ -49,7 +49,7 @@ jobs:
           deno compile \
             --allow-all \
             --output hoffice130-patcher \
-            /src/hoffice-patcher.js
+            src/hoffice-patcher.js
             
       - name: Generate changelog
         run: |
