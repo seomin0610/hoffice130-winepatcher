@@ -37,7 +37,19 @@ WM: Hyprland 0.54.3 (Wayland)
 
 IME(입력기): fcitx5/kime
 
-## ..
+## 참고
+
+### 한/영 바꾸는 방법
+
+설정되어있는 값은 ```Shift + Space``` 입니다만 혹시 다를수도 있으니...
+
+오피스창에서 ```도구 -> 글자판 -> 글자판 바꾸기``` 또는 ```Alt + F2```
+<img width="395" height="395" alt="image" src="https://github.com/user-attachments/assets/f5354ea9-1b69-4243-acdb-df03bc2c6d24" />
+다음과 같은 창에서 ```1/2 글자판 전환``` 항목을 보시면 알 수 있습니다.
+
+또는 ```현재 글자판```을 ```윈도우 입력기```로 바꾸어 원래 사용하시던 리눅스 입력기를 사용하실수 있습니다.
+
+## 스크린샷
 <img width="1915" height="1078" alt="1776595426" src="https://github.com/user-attachments/assets/b0c677cc-7da0-4187-bbc3-9f7f7eecdbcc" />
 
 <img width="1917" height="1077" alt="1776601986" src="https://github.com/user-attachments/assets/93f612b1-2b37-4ed6-b897-b0bff14bdb64" />
