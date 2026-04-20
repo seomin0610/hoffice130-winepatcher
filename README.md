@@ -12,6 +12,7 @@
 - wine
 - socat (한컴독스 로그인시 필요해요)
 - winetricks
+- Python (.sh 파일만)
 - 등등..
 
 ## 사용법
@@ -26,6 +27,7 @@
 
 - wine-11.0 (Staging)
 - winetricks 20260125
+- Python 3.14.3
 
 OS: Fedora Linux 43 (Workstation Edition) x86_64
 
